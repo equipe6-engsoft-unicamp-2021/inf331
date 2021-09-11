@@ -3,11 +3,11 @@
 
 Integrantes
 
-- Altieres S. Netto (RA: ex150315)
-- Byron Acuña ()
-- Gustavo Gini ()
-- Juliana Malton ()
-- Sophia Lancini ()
+- Altieres S. Netto
+- Byron Acuña
+- Gustavo Gini
+- Juliana Malton
+- Sophia Lancini
 
 # Nível 1
 
@@ -528,4 +528,10 @@ Método | Objetivo
 
 ### Detalhamento da interação de componentes
 
-> O detalhamento deve seguir o mesmo formato usado no Nível 2.
+> O componente Classificação ao receber um evento de clique, envia informações ao componente Obter Avaliações.
+- O componente SeletorDeLoja ao receber um evento de clique, envia informações a dois componentes ObterOfertas que é relacionada a produtos e componente SelecionaOferta que é relacionado à recomendação de ofertas
+- O componente OpçãoDeParcelamento ao receber um evento de mudança,  envia informações a dois componentes CalcullParcelas e componente ArmazenaParcela.
+- O componente SeletorFormaDePagamento ao receber um evento de clique, envia informações a dois componentes ObterFormaDePagamento e o componente ArmazenaFormaDePagamento.
+- O componente Quantidade ao receber um evento de mudança envia informações ao componente ArmazenaQuantidade.
+- O componente BotãoDeCompra ao rebecer um evento de clique, envia informações ao componente ProcessaCompra.
+
