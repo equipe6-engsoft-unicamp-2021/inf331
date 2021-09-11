@@ -53,16 +53,6 @@ Integrantes
 - O componente ORDER solicita a ordem criada diretamente ao componente SHOPPER através da interface IRetrieveOrder.
 
 
-> Para cada componente será apresentado um documento conforme o modelo a seguir:
-
-## Componente `<Nome do Componente>`
-
-> Resumo do papel do componente e serviços que ele oferece.
-
-> Diagrama do componente, conforme exemplo a seguir:
-
-![Componente](diagrama-componente-mensagens.png)
-
 **Interfaces**
 > Listagem das interfaces do componente.
 
@@ -72,7 +62,7 @@ As interfaces listadas são detalhadas a seguir:
 
 ### Interface `PlaceOffers`
 
-> Resumo do papel da interface.
+> Interface que permite enviar as ofertas, em reação a uma requisição de preços 
 
 > Dados da interface:
 
@@ -104,7 +94,7 @@ As interfaces listadas são detalhadas a seguir:
 ~~~
 ### Interface `GetOffer`
 
-> Resumo do papel da interface.
+> Interface que permite receber as ofertas, em reação a uma requisição de preços
 
 > Dados da interface:
 
@@ -137,7 +127,7 @@ As interfaces listadas são detalhadas a seguir:
 
 ### Interface `PlaceOrder`
 
-> Resumo do papel da interface.
+> Interface que permite inserir um pedido no barramento, iniciando o processo de leilão
 
 > Dados da interface:
 
@@ -172,7 +162,7 @@ As interfaces listadas são detalhadas a seguir:
 ~~~
 ### Interface `GetOrder`
 
-> Resumo do papel da interface.
+> Interface que permite receber o pedido no barramento, iniciando o processo de leilão
 
 > Dados da interface:
 
@@ -208,7 +198,7 @@ As interfaces listadas são detalhadas a seguir:
 
 ### Interface `SendBestOffers`
 
-> Resumo do papel da interface.
+> Interface que permite enviar as melhores ofertas, disponibilizando as melhores ofertas de um determinado produto ou tipo de produto para o usuário
 
 > Dados da interface:
 
@@ -231,7 +221,7 @@ As interfaces listadas são detalhadas a seguir:
 ~~~
 ### Interface `GetBestOffers`
 
-> Resumo do papel da interface.
+> Interface que permite receber as melhores ofertas pelo usuário
 
 > Dados da interface:
 
@@ -255,7 +245,7 @@ As interfaces listadas são detalhadas a seguir:
 
 ### Interface `RequestPackage`
 
-> Resumo do papel da interface.
+> Interface que permite requisitar o envio do pacote de um dado pedido
 
 > Dados da interface:
 
@@ -289,7 +279,7 @@ As interfaces listadas são detalhadas a seguir:
 ~~~
 ### Interface `GetRequestPackage`
 
-> Resumo do papel da interface.
+> Interface que permite obter as informações do frete do pedido efetuado
 
 > Dados da interface:
 
@@ -324,7 +314,7 @@ As interfaces listadas são detalhadas a seguir:
 
 ### Interface `Recommendations`
 
-> Resumo do papel da interface.
+> Interface que permite obter recomendações de compra de um determinado tipo (ex: melhor preço, frete mais rápido, melhor vendedor, etc)
 
 > Dados da interface:
 
@@ -349,7 +339,7 @@ As interfaces listadas são detalhadas a seguir:
 ~~~
 ### Interface `Ranks`
 
-> Resumo do papel da interface.
+> Interface que elenca os melhores tipos de ofertas por um dado tipo
 
 > Dados da interface:
 
@@ -375,7 +365,7 @@ As interfaces listadas são detalhadas a seguir:
 
 ### Interface `CheckPayment`
 
-> Resumo do papel da interface.
+> Verifica os dados de pagamento de um dado pedido
 
 > Dados da interface:
 
@@ -398,7 +388,7 @@ As interfaces listadas são detalhadas a seguir:
 ~~~
 ### Interface `SendApprovedPayment`
 
-> Resumo do papel da interface.
+> Envia a confirmação de pagamento de um dado pedido, com informações relevantes acerca do mesmo.
 
 > Dados da interface:
 
@@ -422,7 +412,7 @@ As interfaces listadas são detalhadas a seguir:
 
 ### Interface `ShippedOrder`
 
-> Resumo do papel da interface.
+> Interface que reúne informações do envio do pacote do pedido.
 
 > Dados da interface:
 
@@ -449,7 +439,7 @@ As interfaces listadas são detalhadas a seguir:
 ~~~
 ### Interface `ShipOrder`
 
-> Resumo do papel da interface.
+> Interface que aciona o processo de envio do pedido realizado
 
 > Dados da interface:
 
@@ -503,33 +493,6 @@ As interfaces listadas são detalhadas a seguir:
 - O componente Process Order solicita aprovação da ordem de pagamento do componente Approve Order através da interface Approve Order.
 - O componente Process Payment solicita externamente  aprovação de pagamento e requisição de pagamento através das interfaces ExternalRequirePayment e ExternalGetPaymentApproval.
 - O componente Approve Order envia externamente  aprovação de pagamento através da interface ISendApprovedPayment.
-
-> Para cada componente será apresentado um documento conforme o modelo a seguir:
-
-## Componente `<Nome do Componente>`
-
-> Resumo do papel do componente e serviços que ele oferece.
-
-![Componente](images/diagrama-componente.png)
-
-**Interfaces**
-> Listagem das interfaces do componente.
-
-As interfaces listadas são detalhadas a seguir:
-
-## Detalhamento das Interfaces
-
-### Interface `<nome da interface>`
-
-![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
-
-> Resumo do papel da interface.
-
-Método | Objetivo
--------| --------
-`<id do método>` | `<objetivo do método e descrição dos parâmetros>`
-
-## Exemplos:
 
 ### Interface `ITableProducer`
 
