@@ -3,11 +3,11 @@
 
 Integrantes
 
-- Altieres S. Netto (RA: ex150315)
-- Byron Acuña ()
-- Gustavo Gini ()
-- Juliana Malton ()
-- Sophia Lancini ()
+- Altieres S. Netto
+- Byron Acuña
+- Gustavo Gini
+- Juliana Malton
+- Sophia Lancini
 
 # Nível 1
 
