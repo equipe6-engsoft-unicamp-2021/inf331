@@ -557,7 +557,7 @@ Método | Objetivo
 
 > Apresente uma imagem com a captura de tela de seu protótipo feito no MIT App Inventor, conforme modelo a seguir:
 
-![Captura de Tela do Protótipo](images/captura-prototipo.png)
+![Captura de Tela do Protótipo](images/captura-prototipo.PNG)
 
 > Apresente o diagrama referente ao protótipo conforme o modelo a seguir:
 
