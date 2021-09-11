@@ -34,21 +34,21 @@ Integrantes
 
 
 - O processo de compra inicia através do componente SHOPPER que cria um pedido através da interface IOrderCreate.
-- O componente ORDER recebe o pedido, ele cria um novo pedido e posta através da interface ICheckPayment no tópico /payment/order/<orderId>/- approved caso a compra tenha sido aprovada ou no tópico /payment/order/<orderId>/denied. 
+- O componente ORDER recebe o pedido, ele cria um novo pedido e posta através da interface ICheckPayment no tópico /payment/order/<orderId>/approved caso a compra tenha sido aprovada ou no tópico /payment/order/<orderId>/denied. 
 - No caso da compra aprovada o loja, componente SHOP, posta uma mensagem para envio da mercadoria para o componente Shipping 
 - Os componentes SHOP publicam no barramento as mensagens de tópico “offer/<offer_id>/place” através da interface ISendOffers.
 - O componente RECOMENDATION assina o barramento as mensagens de tópico “offer/<offer_id>/place” através da interface IPlaceOffers.
 - O componente RECOMENDATION assina o barramento as mensagens de tópico “recommendations/<rcm_type>/get” através da interface IGetRanks.
-- O componente RECOMENDATION publica no barramento as mensagens de tópico “recommendations/<rcm_type>/get” através da interface - ISendRecommendation.
+- O componente RECOMENDATION publica no barramento as mensagens de tópico “recommendations/<rcm_type>/get” através da interface ISendRecommendation.
 - O componente SHOPPER publica no barramento as mensagens de tópico “ranks/<rnk_type>/send” através da interface IRanks.
 - O componente SHOPPER assina o barramento as mensagens de tópico “recommendation/<rcm_type>/get” através da interface IRecommendations.
-- O componente SHOPPER assina o barramento as mensagens de tópico “ship/<order_id>/<order_status>/track” através da interface - IFetchShippedOrdes.
+- O componente SHOPPER assina o barramento as mensagens de tópico “ship/<order_id>/<order_status>/track” através da interface IFetchShippedOrdes.
 - O componente SHOP assina o barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface IGetApprovedPayment.
 - Os componentes SHOP publica no barramento as mensagens de tópico “ship/<order_id>/<order_status>/update” através da interface ISendToShips.
 - O componente SHIPPING assina o barramento as mensagens de tópico “ship/<order_id>/<order_status>/update” através da interface IShipOrder.
 - O componente SHIPPING publica no barramento as mensagens de tópico “ship/<order_id>/<order_status>/track” através da interface IShippingOrder.
 - O componente PAYMENT assina o barramento as mensagens de tópico “payment/<order_id>/verify” através da interface ICheckPayment.
-- O componente PAYMENT publica no barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface - ISendApprovedPayment.
+- O componente PAYMENT publica no barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface ISendApprovedPayment.
 - O componente ORDER publica no barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface IPayment.
 - O componente ORDER solicita a ordem criada diretamente ao componente SHOPPER através da interface IRetrieveOrder.
 
@@ -192,7 +192,7 @@ As interfaces listadas são detalhadas a seguir:
 	{
    	  itemid: string,
    	  quantity: number,
-  price: number
+      price: number
 	}
   ],
   buyerUserId: string,
@@ -224,7 +224,7 @@ As interfaces listadas são detalhadas a seguir:
     {
 		itemid: string,
 		offerType: string,
-    		offer: Offer
+        offer: Offer
 	}
   ]
 }
@@ -247,7 +247,7 @@ As interfaces listadas são detalhadas a seguir:
     {
 		itemid: string,
 		offerType: string,
-    		offer: Offer
+    	offer: Offer
 	}
   ]
 }
@@ -273,7 +273,7 @@ As interfaces listadas são detalhadas a seguir:
 	{
    	  itemid: string,
    	  quantity: number,
-  price: number
+      price: number
 	}
   ],
   postCode: string,
@@ -307,7 +307,7 @@ As interfaces listadas são detalhadas a seguir:
 	{
    	  itemid: string,
    	  quantity: number,
-  price: number
+      price: number
 	}
   ],
   postCode: string,
@@ -342,7 +342,7 @@ As interfaces listadas são detalhadas a seguir:
 	{
    	  itemid: string,
    	  quantity: number,
-  price: number
+      price: number
 	}
   ]
 }
@@ -367,7 +367,7 @@ As interfaces listadas são detalhadas a seguir:
 	{
    	  itemid: string,
    	  quantity: number,
-  price: number
+      price: number
 	}
   ]
 }
@@ -483,16 +483,26 @@ As interfaces listadas são detalhadas a seguir:
 
 > Apresente um diagrama conforme o modelo a seguir:
 
-> ![Modelo de diagrama no nível 2](images/diagrama-subcomponentes.png)
+> ![Modelo de diagrama no nível 2](images/level2.png)
 
 ### Detalhamento da interação de componentes
 
 > O detalhamento deve seguir um formato de acordo com o exemplo a seguir:
 
-* O componente `Entrega Pedido Compra` assina no barramento mensagens de tópico "`pedido/+/entrega`" através da interface `Solicita Entrega`.
-  * Ao receber uma mensagem de tópico "`pedido/+/entrega`", dispara o início da entrega de um conjunto de produtos.
-* Os componentes `Solicita Estoque` e `Solicita Compra` se comunicam com componentes externos pelo barramento:
-  * Para consultar o estoque, o componente `Solicita Estoque` publica no barramento uma mensagem de tópico "`produto/<id>/estoque/consulta`" através da interface `Consulta Estoque` e assina mensagens de tópico "`produto/<id>/estoque/status`" através da interface `Posição Estoque` que retorna a disponibilidade do produto.
+- O componente PAYMENT assina o barramento mensagens de tópico “payment/<order_id>/verify”, através da interface ICheckPayment e dispara o gerenciamento do pagamento.
+- Internamento o evento é atendido pelo componente Manage Order, que possui a responsabilidade requisitar informações de outras interfaces.
+- O componente ManageOrder solicita o método de envio do componente Select Shipping Method através da interface Input Shipping.
+- O componente ManageOrder solicita o método de pagamento do componente Select Payment Method através da interface Input Method.
+- O componente ManageOrder solicita o método de preenchimento de dados do componente Fill Payment Data  através da interface Input Entrega.
+- O componente Select Shipping Method assina o barramento mensagens, através da interface ExternalCalculateShipping  e dispara o cálculo do envio.
+- O componente Fill Payment Data assina o barramento mensagens, através da interface ExternalVerifyIfDataIsValid  e dispara o cálculo do envio.\
+- O componente PAYMENT assina o barramento mensagens de tópico “payment/<order_id>/verify”, através da interface ICheckPayment e dispara o processamento da ordem através do componente Process Order.
+- Internamento o evento é atendido pelo componente Process Order, que possui a responsabilidade requisitar informações de outras interfaces.
+- O componente Process Order solicita verificação do pagamento do componente Process Payment através da interface Verify Payment.
+- O componente Process Order solicita o pagamento do componente Process Payment através da interface Require Payment.
+- O componente Process Order solicita aprovação da ordem de pagamento do componente Approve Order através da interface Approve Order.
+- O componente Process Payment solicita externamente  aprovação de pagamento e requisição de pagamento através das interfaces ExternalRequirePayment e ExternalGetPaymentApproval.
+- O componente Approve Order envia externamente  aprovação de pagamento através da interface ISendApprovedPayment.
 
 > Para cada componente será apresentado um documento conforme o modelo a seguir:
 
