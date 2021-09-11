@@ -92,7 +92,7 @@ As interfaces listadas são detalhadas a seguir:
   }
 }
 ~~~
-### Interface `GetOffer`
+### Interface `GetOffers`
 
 > Interface que permite receber as ofertas, em reação a uma requisição de preços
 
@@ -125,7 +125,7 @@ As interfaces listadas são detalhadas a seguir:
 }
 ~~~
 
-### Interface `PlaceOrder`
+### Interface `OrderCreate`
 
 > Interface que permite inserir um pedido no barramento, iniciando o processo de leilão
 
@@ -160,7 +160,7 @@ As interfaces listadas são detalhadas a seguir:
   } 
 }
 ~~~
-### Interface `GetOrder`
+### Interface `RetrieveOrder`
 
 > Interface que permite receber o pedido no barramento, iniciando o processo de leilão
 
@@ -196,17 +196,17 @@ As interfaces listadas são detalhadas a seguir:
 }
 ~~~
 
-### Interface `SendBestOffers`
+### Interface `SendOffers`
 
 > Interface que permite enviar as melhores ofertas, disponibilizando as melhores ofertas de um determinado produto ou tipo de produto para o usuário
 
 > Dados da interface:
 
 * Type: `source`
-* Topic: `best-offers/<offer_id>/send`
-* Message type: `BestOffers`
+* Topic: `offers/<offer_id>/send`
+* Message type: `Offers`
 
-> Detalhamento da mensagem `BestOffers` em formato JSON
+> Detalhamento da mensagem `Offers` em formato JSON
 
 ~~~json
 {
@@ -219,17 +219,17 @@ As interfaces listadas são detalhadas a seguir:
   ]
 }
 ~~~
-### Interface `GetBestOffers`
+### Interface `RetrieveOffers`
 
 > Interface que permite receber as melhores ofertas pelo usuário
 
 > Dados da interface:
 
 * Type: `sink`
-* Topic: `best-offers/<offer_id>/get`
-* Message type: `BestOffers`
+* Topic: `offers/<offer_id>/get`
+* Message type: `Offers`
 
-> Detalhamento da mensagem `BestOffers` em formato JSON
+> Detalhamento da mensagem `Offers` em formato JSON
 
 ~~~json
 {
@@ -243,7 +243,7 @@ As interfaces listadas são detalhadas a seguir:
 }
 ~~~
 
-### Interface `RequestPackage`
+### Interface `SendToShip`
 
 > Interface que permite requisitar o envio do pacote de um dado pedido
 
@@ -277,7 +277,7 @@ As interfaces listadas são detalhadas a seguir:
   } 
 }
 ~~~
-### Interface `GetRequestPackage`
+### Interface `FetchShippedOrder`
 
 > Interface que permite obter as informações do frete do pedido efetuado
 
@@ -337,7 +337,7 @@ As interfaces listadas são detalhadas a seguir:
   ]
 }
 ~~~
-### Interface `Ranks`
+### Interface `GetRanks`
 
 > Interface que elenca os melhores tipos de ofertas por um dado tipo
 
