@@ -32,21 +32,21 @@ Integrantes
 
 
 - O processo de compra inicia através do componente SHOPPER que cria um pedido através da interface IOrderCreate.
-- O componente ORDER recebe o pedido, ele cria um novo pedido e posta através da interface ICheckPayment no tópico /payment/order/<orderId>/- approved caso a compra tenha sido aprovada ou no tópico /payment/order/<orderId>/denied. 
+- O componente ORDER recebe o pedido, ele cria um novo pedido e posta através da interface ICheckPayment no tópico /payment/order/<orderId>/approved caso a compra tenha sido aprovada ou no tópico /payment/order/<orderId>/denied. 
 - No caso da compra aprovada o loja, componente SHOP, posta uma mensagem para envio da mercadoria para o componente Shipping 
 - Os componentes SHOP publicam no barramento as mensagens de tópico “offer/<offer_id>/place” através da interface ISendOffers.
 - O componente RECOMENDATION assina o barramento as mensagens de tópico “offer/<offer_id>/place” através da interface IPlaceOffers.
 - O componente RECOMENDATION assina o barramento as mensagens de tópico “recommendations/<rcm_type>/get” através da interface IGetRanks.
-- O componente RECOMENDATION publica no barramento as mensagens de tópico “recommendations/<rcm_type>/get” através da interface - ISendRecommendation.
+- O componente RECOMENDATION publica no barramento as mensagens de tópico “recommendations/<rcm_type>/get” através da interface ISendRecommendation.
 - O componente SHOPPER publica no barramento as mensagens de tópico “ranks/<rnk_type>/send” através da interface IRanks.
 - O componente SHOPPER assina o barramento as mensagens de tópico “recommendation/<rcm_type>/get” através da interface IRecommendations.
-- O componente SHOPPER assina o barramento as mensagens de tópico “ship/<order_id>/<order_status>/track” através da interface - IFetchShippedOrdes.
+- O componente SHOPPER assina o barramento as mensagens de tópico “ship/<order_id>/<order_status>/track” através da interface IFetchShippedOrdes.
 - O componente SHOP assina o barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface IGetApprovedPayment.
 - Os componentes SHOP publica no barramento as mensagens de tópico “ship/<order_id>/<order_status>/update” através da interface ISendToShips.
 - O componente SHIPPING assina o barramento as mensagens de tópico “ship/<order_id>/<order_status>/update” através da interface IShipOrder.
 - O componente SHIPPING publica no barramento as mensagens de tópico “ship/<order_id>/<order_status>/track” através da interface IShippingOrder.
 - O componente PAYMENT assina o barramento as mensagens de tópico “payment/<order_id>/verify” através da interface ICheckPayment.
-- O componente PAYMENT publica no barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface - ISendApprovedPayment.
+- O componente PAYMENT publica no barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface ISendApprovedPayment.
 - O componente ORDER publica no barramento as mensagens de tópico “payment/<order_id>/<status>/send” através da interface IPayment.
 - O componente ORDER solicita a ordem criada diretamente ao componente SHOPPER através da interface IRetrieveOrder.
 
@@ -74,7 +74,10 @@ Seus serviços disponíveis são:
 
 A interface IRanks posta mensagens no barramento com o objetivo de iniciar o ranqueamento de recomendações de compra para o serviço.
 
-![Diagrama de Interface de Mensagens](images/IRanks.png)
+* Type: `source`
+* Topic: `ranks/<rnk_type>/send`
+* Message type: `Ranks`
+
 
 ~~~json
 {
@@ -82,9 +85,9 @@ A interface IRanks posta mensagens no barramento com o objetivo de iniciar o ran
   total: number,
   items: [
 	{
-   	  itemid: string,
-   	  quantity: number,
-  price: number
+   	itemid: string,
+   	quantity: number,
+    price: number
 	}
   ]
 }
@@ -94,7 +97,9 @@ A interface IRanks posta mensagens no barramento com o objetivo de iniciar o ran
 
 A interface IRecommendations consume mensagens no barramento com o objetivo de devolver ao comprador os produtos que foram selecionador por ele de acordo com as suas recomendações.
 
-![Diagrama de Interface de Mensagens](images/IRecommendations.png)
+* Type: `sink`
+* Topic: `recommendation/<rcm_type>/get`
+* Message type: `Recommendation`
 
 ~~~json
 {
@@ -102,9 +107,9 @@ A interface IRecommendations consume mensagens no barramento com o objetivo de d
   total: number,
   items: [
 	{
-   	  itemid: string,
-   	  quantity: number,
-  price: number
+   	itemid: string,
+   	quantity: number,
+    price: number
 	}
   ]
 }
@@ -114,7 +119,9 @@ A interface IRecommendations consume mensagens no barramento com o objetivo de d
 
 A interface IOrderCreate envia um pedido a ser criado.
 
-![Diagrama de Interface de Mensagens](images/IOrderCreate.png)
+* Type: `source`
+* Topic: `order/<order_id>/place`
+* Message type: `Order`
 
 ~~~json
 {
@@ -143,7 +150,9 @@ A interface IOrderCreate envia um pedido a ser criado.
 
 A interface IFetchShippedOrder consome o status do despacho da mercadoria.
 
-![Diagrama de Interface de Mensagens](images/IFetchShippedOrder.png)
+* Type: `sink`
+* Topic: `package/<order_id>/get`
+* Message type: `PackageInfo`
 
 ~~~json
 {
@@ -183,7 +192,9 @@ Seus serviços disponíveis são:
 
 A interface IRetrieveOrder recebe os disparos para a criação de um novo pedido.
 
-![Diagrama de Interface de Mensagens](images/IRetrieveOrder.png)
+* Type: `sink`
+* Topic: `offers/<offer_id>/get`
+* Message type: `Offers`
 
 ~~~json
 {
@@ -212,7 +223,9 @@ A interface IRetrieveOrder recebe os disparos para a criação de um novo pedido
 
 A interface IPayment posta no barramento para validar os dados de pagamento do comprador.
 
-![Diagrama de Interface de Mensagens](images/IPayment.png)
+* Type: `sink`
+* Topic: `payment/<order_id>/verify`
+* Message type: `Payment`
 
 ~~~json
 {
@@ -247,7 +260,9 @@ Seus serviços disponíveis são:
 
 A interface IRetrieveOrder recebe os disparos para a criação de um novo pedido.
 
-![Diagrama de Interface de Mensagens](images/IRetrieveOrder.png)
+* Type: `sink`
+* Topic: `order/<order_id>/get`
+* Message type: `Order`
 
 ~~~json
 {
@@ -276,7 +291,9 @@ A interface IRetrieveOrder recebe os disparos para a criação de um novo pedido
 
 A interface IPayment posta no barramento para validar os dados de pagamento do comprador.
 
-![Diagrama de Interface de Mensagens](images/IPayment.png)
+* Type: `sink`
+* Topic: `payment/<order_id>/verify`
+* Message type: `Payment`
 
 ~~~json
 {
@@ -311,7 +328,9 @@ Seus serviços disponíveis são:
 
 A interface ICheckPayment recebe os disparos para a validação dos dados do pagamento.
 
-![Diagrama de Interface de Mensagens](images/ICheckPayment.png)
+* Type: `sink`
+* Topic: `payment/<order_id>/verify`
+* Message type: `Payment`
 
 ~~~json
 {
@@ -333,7 +352,9 @@ A interface ICheckPayment recebe os disparos para a validação dos dados do pag
 
 A interface IPayment posta no barramento somente os pagamentos aprovados
 
-![Diagrama de Interface de Mensagens](images/ISendApprovedPayment.png)
+* Type: `source`
+* Topic: `payment/<order_id>/<status>/send`
+* Message type: `Payment`
 
 ~~~json
 {
@@ -373,7 +394,9 @@ Seus serviços disponíveis são:
 
 A interface IShipOrder recebe os disparos para a validação dos dados de despacho.
 
-![Diagrama de Interface de Mensagens](images/IShipOrder.png)
+* Type: `source`
+* Topic: `ship/<order_id>/<order_status>/update`
+* Message type: `Ship`
 
 ~~~json
 {
@@ -393,7 +416,9 @@ A interface IShipOrder recebe os disparos para a validação dos dados de despac
 
 A interface IShippedOrder posta no barramento o andamento da entrega.
 
-![Diagrama de Interface de Mensagens](images/IShippedOrder.png)
+* Type: `sink`
+* Topic: `ship/<order_id>/<order_status>/track`
+* Message type: `Ship`
 
 ~~~json
 {
@@ -433,7 +458,9 @@ Seus serviços disponíveis são:
 
 A interface IRetrieveOffers recebe os disparos .
 
-![Diagrama de Interface de Mensagens](images/IRetrieveOffers.png)
+* Type: `sink`
+* Topic: `offers/<offer_id>/get`
+* Message type: `Offers`
 
 ~~~json
 {
@@ -451,7 +478,9 @@ A interface IRetrieveOffers recebe os disparos .
 
 A interface ISendOffers posta no barramento a melhor oferta do lojista.
 
-![Diagrama de Interface de Mensagens](images/ISendOffers.png)
+* Type: `source`
+* Topic: `offers/<offer_id>/send`
+* Message type: `Offers`
 
 ~~~json
 {
@@ -469,7 +498,9 @@ A interface ISendOffers posta no barramento a melhor oferta do lojista.
 
 A interface IGetApprovedPayment consome no barramento os pedidos que tem pagamentos aprovados.
 
-![Diagrama de Interface de Mensagens](images/IGetApprovedPayment.png)
+* Type: `source`
+* Topic: `payment/<order_id>/<status>/send`
+* Message type: `Payment`
 
 ~~~json
 {
@@ -492,7 +523,9 @@ A interface IGetApprovedPayment consome no barramento os pedidos que tem pagamen
 
 A interface ISendToShip posta no barramento os pedidos aprovados que estão prontos para despacho.
 
-![Diagrama de Interface de Mensagens](images/ISendToShip.png)
+* Type: `source`
+* Topic: `package/<order_id>/request`
+* Message type: `PackageInfo`
 
 ~~~json
 {
@@ -532,7 +565,9 @@ Seus serviços disponíveis são:
 
 A interface IGetOffers recebe as ofertas dos lojistas.
 
-![Diagrama de Interface de Mensagens](images/IGetOffers.png)
+* Type: `sink`
+* Topic: `offer/<offer_id>/get`
+* Message type: `Offer`
 
 ~~~json
 {
@@ -559,7 +594,9 @@ A interface IGetOffers recebe as ofertas dos lojistas.
 
 A interface ISendOffers posta no barramento os critérios para as ofertas.
 
-![Diagrama de Interface de Mensagens](images/IPlaceOffers.png)
+* Type: `source`
+* Topic: `offer/<offer_id>/place`
+* Message type: `Offer`
 
 ~~~json
 {
@@ -577,7 +614,9 @@ A interface ISendOffers posta no barramento os critérios para as ofertas.
 
 A interface IGetRanks consome no barramento os critérios de ranqueamento de recomendações de ofertas.
 
-![Diagrama de Interface de Mensagens](images/IGetRanks.png)
+* Type: `source`
+* Topic: `ranks/<rnk_type>/send`
+* Message type: `Ranks`
 
 ~~~json
 {
@@ -595,7 +634,9 @@ A interface IGetRanks consome no barramento os critérios de ranqueamento de rec
 
 A interface ISendRecommendations posta no barramento as recomendações para o comprador.
 
-![Diagrama de Interface de Mensagens](images/ISendRecommendations.png)
+* Type: `sink`
+* Topic: `recommendation/<rcm_type>/send`
+* Message type: `Recommendation`
 
 ~~~json
 {
@@ -619,76 +660,44 @@ A interface ISendRecommendations posta no barramento as recomendações para o c
 
 > Apresente um diagrama conforme o modelo a seguir:
 
-> ![Modelo de diagrama no nível 2](images/diagrama-subcomponentes.png)
+> ![Modelo de diagrama no nível 2](images/level2.png)
 
 ### Detalhamento da interação de componentes
 
 > O detalhamento deve seguir um formato de acordo com o exemplo a seguir:
 
-* O componente `Entrega Pedido Compra` assina no barramento mensagens de tópico "`pedido/+/entrega`" através da interface `Solicita Entrega`.
-  * Ao receber uma mensagem de tópico "`pedido/+/entrega`", dispara o início da entrega de um conjunto de produtos.
-* Os componentes `Solicita Estoque` e `Solicita Compra` se comunicam com componentes externos pelo barramento:
-  * Para consultar o estoque, o componente `Solicita Estoque` publica no barramento uma mensagem de tópico "`produto/<id>/estoque/consulta`" através da interface `Consulta Estoque` e assina mensagens de tópico "`produto/<id>/estoque/status`" através da interface `Posição Estoque` que retorna a disponibilidade do produto.
-
-> Para cada componente será apresentado um documento conforme o modelo a seguir:
-
-## Componente `<Nome do Componente>`
-
-> Resumo do papel do componente e serviços que ele oferece.
-
-![Componente](images/diagrama-componente.png)
-
-**Interfaces**
-> Listagem das interfaces do componente.
-
-As interfaces listadas são detalhadas a seguir:
-
-## Detalhamento das Interfaces
-
-### Interface `<nome da interface>`
-
-![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
-
-> Resumo do papel da interface.
-
-Método | Objetivo
--------| --------
-`<id do método>` | `<objetivo do método e descrição dos parâmetros>`
-
-## Exemplos:
-
-### Interface `ITableProducer`
-
-![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
-
-Interface provida por qualquer fonte de dados que os forneça na forma de uma tabela.
-
-Método | Objetivo
--------| --------
-`requestAttributes` | Retorna um vetor com o nome de todos os atributos (colunas) da tabela.
-`requestInstances` | Retorna uma matriz em que cada linha representa uma instância e cada coluna o valor do respectivo atributo (a ordem dos atributos é a mesma daquela fornecida por `requestAttributes`.
-
-### Interface `IDataSetProperties`
-
-![Diagrama da Interface](images/diagrama-interface-idatasetproperties.png)
-
-Define o recurso (usualmente o caminho para um arquivo em disco) que é a fonte de dados.
-
-Método | Objetivo
--------| --------
-`getDataSource` | Retorna o caminho da fonte de dados.
-`setDataSource` | Define o caminho da fonte de dados, informado através do parâmetro `dataSource`.
+- O componente PAYMENT assina o barramento mensagens de tópico “payment/<order_id>/verify”, através da interface ICheckPayment e dispara o gerenciamento do pagamento.
+- Internamento o evento é atendido pelo componente Manage Order, que possui a responsabilidade requisitar informações de outras interfaces.
+- O componente ManageOrder solicita o método de envio do componente Select Shipping Method através da interface Input Shipping.
+- O componente ManageOrder solicita o método de pagamento do componente Select Payment Method através da interface Input Method.
+- O componente ManageOrder solicita o método de preenchimento de dados do componente Fill Payment Data  através da interface Input Entrega.
+- O componente Select Shipping Method assina o barramento mensagens, através da interface ExternalCalculateShipping  e dispara o cálculo do envio.
+- O componente Fill Payment Data assina o barramento mensagens, através da interface ExternalVerifyIfDataIsValid  e dispara o cálculo do envio.\
+- O componente PAYMENT assina o barramento mensagens de tópico “payment/<order_id>/verify”, através da interface ICheckPayment e dispara o processamento da ordem através do componente Process Order.
+- Internamento o evento é atendido pelo componente Process Order, que possui a responsabilidade requisitar informações de outras interfaces.
+- O componente Process Order solicita verificação do pagamento do componente Process Payment através da interface Verify Payment.
+- O componente Process Order solicita o pagamento do componente Process Payment através da interface Require Payment.
+- O componente Process Order solicita aprovação da ordem de pagamento do componente Approve Order através da interface Approve Order.
+- O componente Process Payment solicita externamente  aprovação de pagamento e requisição de pagamento através das interfaces ExternalRequirePayment e ExternalGetPaymentApproval.
+- O componente Approve Order envia externamente  aprovação de pagamento através da interface ISendApprovedPayment.
 
 ## Diagrama do Nível 3
 
 > Apresente uma imagem com a captura de tela de seu protótipo feito no MIT App Inventor, conforme modelo a seguir:
 
-![Captura de Tela do Protótipo](images/captura-prototipo.png)
+![Captura de Tela do Protótipo](images/captura-prototipo.PNG)
 
 > Apresente o diagrama referente ao protótipo conforme o modelo a seguir:
 
-![Modelo de diagrama no nível 2](images/diagrama-prototipo.png)
+![Modelo de diagrama no nível 2](images/diagrama-prototipo1.PNG)
+![Modelo de diagrama no nível 2](images/diagrama-prototipo2.PNG)
 
 ### Detalhamento da interação de componentes
 
-> O detalhamento deve seguir o mesmo formato usado no Nível 2.
+- O componente Classificação ao receber um evento de clique, envia informações ao componente Obter Avaliações.
+- O componente SeletorDeLoja ao receber um evento de clique, envia informações a dois componentes ObterOfertas que é relacionada a produtos e componente SelecionaOferta que é relacionado à recomendação de ofertas
+- O componente OpçãoDeParcelamento ao receber um evento de mudança,  envia informações a dois componentes CalcullParcelas e componente ArmazenaParcela.
+- O componente SeletorFormaDePagamento ao receber um evento de clique, envia informações a dois componentes ObterFormaDePagamento e o componente ArmazenaFormaDePagamento.
+- O componente Quantidade ao receber um evento de mudança envia informações ao componente ArmazenaQuantidade.
+- O componente BotãoDeCompra ao rebecer um evento de clique, envia informações ao componente ProcessaCompra.
+
