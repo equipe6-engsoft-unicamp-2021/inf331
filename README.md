@@ -3,22 +3,20 @@
 
 Integrantes
 
-- Altieres S. Netto (RA: ex150315)
-- Byron Acuña ()
-- Gustavo Gini ()
-- Juliana Malton ()
-- Sophia Lancini ()
+- Altieres S. Netto
+- Byron Alejandro Acuña Acurio 
+- Gustavo Gini 
+- Juliana Cardoso Malton 
+- Sophia Carvalho Lancini
 
 # Nível 1
-
-> Detalhamento do nível 1
 
 ## Diagrama Geral do Nível 1
 
 > Diagramas descritivos da visão geral do sistema
 
-![Modelo de diagrama no nível 1 - Barramento/Componentes](images/level1-a.png)
-![Modelo de diagrama no nível 1 - Barramento/Interfaces](images/level1-b.png)
+![Modelo de diagrama no nível 1](images/level1-a.png)
+![Modelo de diagrama no nível 1](images/level1-b.png)
 
 ### Detalhamento da interação de componentes
 
@@ -53,311 +51,30 @@ Integrantes
 - O componente ORDER solicita a ordem criada diretamente ao componente SHOPPER através da interface IRetrieveOrder.
 
 
-> Para cada componente será apresentado um documento conforme o modelo a seguir:
+## Componente `Shopper`
 
-## Componente `<Nome do Componente>`
+O componente Shopper é responsável por gerenciar todas as funcionalidades do comprador.
+Seus serviços disponíveis são: 
+* Criar um pedido;
+* Iniciar o ranqueamento de recomendações de compra.
 
-> Resumo do papel do componente e serviços que ele oferece.
-
-> Diagrama do componente, conforme exemplo a seguir:
-
-![Componente](diagrama-componente-mensagens.png)
+![Componente](shopper.png)
 
 **Interfaces**
 > Listagem das interfaces do componente.
 
-As interfaces listadas são detalhadas a seguir:
+* IRanks
+* IRecommendations
+* IOrderCreate
+* IFetchShippedOrder
 
 ## Detalhamento das Interfaces
 
-### Interface `PlaceOffers`
+### Interface `IRanks`
 
-> Resumo do papel da interface.
+A interface IRanks posta mensagens no barramento com o objetivo de iniciar o ranqueamento de recomendações de compra para o serviço.
 
-> Dados da interface:
-
-* Type: `source`
-* Topic: `offer/<offer_id>/place`
-* Message type: `Offer`
-
-> Detalhamento da mensagem `Offer` em formato JSON
-
-~~~json
-{
-  store: {
-    storeId: string,
-    location: {
-      country: string,
-      state: string,
-      city: string,
-      address: string,
-      cep: string
-  	}
-  },
-  product: {
-    productId: string,
-    quantityAvailable: number,
-    unitaryPrice: number,
-    availableQuantity: number,
-  }
-}
-~~~
-### Interface `GetOffer`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `sink`
-* Topic: `offer/<offer_id>/get`
-* Message type: `Offer`
-
-> Detalhamento da mensagem `Offer` em formato JSON
-
-~~~json
-{
-  store: {
-    storeId: string,
-    location: {
-      country: string,
-      state: string,
-      city: string,
-      address: string,
-      cep: string
-  	}
-  },
-  product: {
-    productId: string,
-    quantityAvailable: number,
-    unitaryPrice: number,
-    availableQuantity: number,
-  }
-}
-~~~
-
-### Interface `PlaceOrder`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `source`
-* Topic: `order/<order_id>/place`
-* Message type: `Order`
-
-> Detalhamento da mensagem `Order` em formato JSON
-
-~~~json
-{
-  orderId: string,
-  orderDate: data,
-  total: number,
-  shippingCost: number,
-  items: [
-	{
-   	  itemid: string,
-   	  quantity: number,
-  price: number
-	}
-  ],
-  buyerUserId: string,
-  shippingAddress: {
-    address: string,
-    city: string,
-    state: string,
-    country: string,
-    cep: string
-  } 
-}
-~~~
-### Interface `GetOrder`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `sink`
-* Topic: `order/<order_id>/get`
-* Message type: `Order`
-
-> Detalhamento da mensagem `Order` em formato JSON
-
-~~~json
-{
-  orderId: string,
-  orderDate: data,
-  total: number,
-  shippingCost: number,
-  items: [
-	{
-   	  itemid: string,
-   	  quantity: number,
-  price: number
-	}
-  ],
-  buyerUserId: string,
-  shippingAddress: {
-    address: string,
-    city: string,
-    state: string,
-    country: string,
-    cep: string
-  } 
-}
-~~~
-
-### Interface `SendBestOffers`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `source`
-* Topic: `best-offers/<offer_id>/send`
-* Message type: `BestOffers`
-
-> Detalhamento da mensagem `BestOffers` em formato JSON
-
-~~~json
-{
-  items: [
-    {
-		itemid: string,
-		offerType: string,
-    		offer: Offer
-	}
-  ]
-}
-~~~
-### Interface `GetBestOffers`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `sink`
-* Topic: `best-offers/<offer_id>/get`
-* Message type: `BestOffers`
-
-> Detalhamento da mensagem `BestOffers` em formato JSON
-
-~~~json
-{
-  items: [
-    {
-		itemid: string,
-		offerType: string,
-    		offer: Offer
-	}
-  ]
-}
-~~~
-
-### Interface `RequestPackage`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `source`
-* Topic: `package/<order_id>/request`
-* Message type: `PackageInfo`
-
-> Detalhamento da mensagem `PackageInfo` em formato JSON
-
-~~~json
-{
-  orderId: string,
-  total: number,
-  items: [
-	{
-   	  itemid: string,
-   	  quantity: number,
-  price: number
-	}
-  ],
-  postCode: string,
-  shippingAddress: {
-	recipient: string,
-    address: string,
-    city: string,
-    state: string,
-    country: string,
-    cep: string
-  } 
-}
-~~~
-### Interface `GetRequestPackage`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `sink`
-* Topic: `package/<order_id>/get`
-* Message type: `PackageInfo`
-
-> Detalhamento da mensagem `PackageInfo` em formato JSON
-
-~~~json
-{
-  orderId: string,
-  total: number,
-  items: [
-	{
-   	  itemid: string,
-   	  quantity: number,
-  price: number
-	}
-  ],
-  postCode: string,
-  shippingAddress: {
-	recipient: string,
-    address: string,
-    city: string,
-    state: string,
-    country: string,
-    cep: string
-  } 
-}
-~~~
-
-### Interface `Recommendations`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `sink`
-* Topic: `recommendation/<rcm_type>/get`
-* Message type: `Recommendation`
-
-> Detalhamento da mensagem `Recommendation` em formato JSON
-
-~~~json
-{
-  rcm_type: string,
-  total: number,
-  items: [
-	{
-   	  itemid: string,
-   	  quantity: number,
-  price: number
-	}
-  ]
-}
-~~~
-### Interface `Ranks`
-
-> Resumo do papel da interface.
-
-> Dados da interface:
-
-* Type: `source`
-* Topic: `ranks/<rnk_type>/send`
-* Message type: `Ranks`
-
-> Detalhamento da mensagem `Ranks` em formato JSON
+![Diagrama de Interface de Mensagens](images/IRanks.png)
 
 ~~~json
 {
@@ -373,64 +90,60 @@ As interfaces listadas são detalhadas a seguir:
 }
 ~~~
 
-### Interface `CheckPayment`
+### Interface `IRecommendations`
 
-> Resumo do papel da interface.
+A interface IRecommendations consume mensagens no barramento com o objetivo de devolver ao comprador os produtos que foram selecionador por ele de acordo com as suas recomendações.
 
-> Dados da interface:
-
-* Type: `sink`
-* Topic: `payment/<order_id>/verify`
-* Message type: `Payment`
-
-> Detalhamento da mensagem `Payment` em formato JSON
+![Diagrama de Interface de Mensagens](images/IRecommendations.png)
 
 ~~~json
 {
-  order_id: number,
-  order_status: boolean,
-  payment_id: string,
-  payment_type: string,
-  total_value: decimal(2),
-  updated_at: datetime,
-  created_at: datetime
+  rcm_type: string,
+  total: number,
+  items: [
+	{
+   	  itemid: string,
+   	  quantity: number,
+  price: number
+	}
+  ]
 }
 ~~~
-### Interface `SendApprovedPayment`
 
-> Resumo do papel da interface.
+### Interface `IOrderCreate`
 
-> Dados da interface:
+A interface IOrderCreate envia um pedido a ser criado.
 
-* Type: `source`
-* Topic: `payment/<order_id>/<status>/send`
-* Message type: `Payment`
-
-> Detalhamento da mensagem `Payment` em formato JSON
+![Diagrama de Interface de Mensagens](images/IOrderCreate.png)
 
 ~~~json
 {
-  order_id: number,
-  order_status: boolean,
-  payment_id: string,
-  payment_type: string,
-  total_value: decimal(2),
-  updated_at: datetime,
-  created_at: datetime
+  orderId: string,
+  orderDate: date,
+  total: double,
+  shippingCost: double,
+  items: [
+	{
+   	itemid: string,
+   	quantity: number,
+    price: number
+	}],
+  buyerUserId: string,
+  shippingAddress: {
+    address: string,
+    city: string,
+    state: string,
+    country: string,
+    cep: string
+  } 
 }
 ~~~
 
-### Interface `ShippedOrder`
+### Interface `IFetchShippedOrder`
 
-> Resumo do papel da interface.
+A interface IFetchShippedOrder consome o status do despacho da mercadoria.
 
-> Dados da interface:
-
-* Type: `sink`
-* Topic: `ship/<order_id>/<order_status>/track`
-* Message type: `Ship`
-
-> Detalhamento da mensagem `Ship` em formato JSON
+![Diagrama de Interface de Mensagens](images/IFetchShippedOrder.png)
 
 ~~~json
 {
@@ -442,38 +155,461 @@ As interfaces listadas são detalhadas a seguir:
 	{
    	  itemid: string,
    	  quantity: number,
-      price: number
+  price: number
 	}
   ]
 }
+
 ~~~
-### Interface `ShipOrder`
 
-> Resumo do papel da interface.
+## Componente `Order`
 
-> Dados da interface:
+O componente Order é responsável por gerenciar todas as funcionalidades para realizar um pedido.
+Seus serviços disponíveis são: 
+* Criar um pedido;
+* E enviar/verificar o pagamento.
 
-* Type: `source`
-* Topic: `ship/<order_id>/<order_status>/update`
-* Message type: `Ship`
+![Componente](order.png)
 
-> Detalhamento da mensagem `Ship` em formato JSON
+**Interfaces**
+> Listagem das interfaces do componente.
+
+* IRetrieveOrder
+* IPayment
+
+## Detalhamento das Interfaces
+
+### Interface `IRetrieveOrder`
+
+A interface IRetrieveOrder recebe os disparos para a criação de um novo pedido.
+
+![Diagrama de Interface de Mensagens](images/IRetrieveOrder.png)
+
+~~~json
+{
+  orderId: string,
+  orderDate: data,
+  total: double,
+  shippingCost: double,
+  items: [
+	{
+   	itemid: string,
+   	quantity: number,
+    price: number
+	}],
+  buyerUserId: string,
+  shippingAddress: {
+    address: string,
+    city: string,
+    state: string,
+    country: string,
+    cep: string
+  } 
+}
+~~~
+
+### Interface `IPayment`
+
+A interface IPayment posta no barramento para validar os dados de pagamento do comprador.
+
+![Diagrama de Interface de Mensagens](images/IPayment.png)
+
+~~~json
+{
+  order_id: number,
+  order_status: enum,
+  payment_id: string,
+  payment_type: string,
+  total_value: double,
+  updated_at: datetime,
+  created_at: datetime
+}
+~~~
+
+## Componente `Order`
+
+O componente Order é responsável por gerenciar todas as funcionalidades para realizar um pedido.
+Seus serviços disponíveis são: 
+* Criar um pedido;
+* E enviar/verificar o pagamento.
+
+![Componente](order.png)
+
+**Interfaces**
+> Listagem das interfaces do componente.
+
+* IRetrieveOrder
+* IPayment
+
+## Detalhamento das Interfaces
+
+### Interface `IRetrieveOrder`
+
+A interface IRetrieveOrder recebe os disparos para a criação de um novo pedido.
+
+![Diagrama de Interface de Mensagens](images/IRetrieveOrder.png)
+
+~~~json
+{
+  orderId: string,
+  orderDate: data,
+  total: double,
+  shippingCost: double,
+  items: [
+	{
+   	itemid: string,
+   	quantity: number,
+    price: number
+  }],
+  buyerUserId: string,
+  shippingAddress: {
+    address: string,
+    city: string,
+    state: string,
+    country: string,
+    cep: string
+  } 
+}
+~~~
+
+### Interface `IPayment`
+
+A interface IPayment posta no barramento para validar os dados de pagamento do comprador.
+
+![Diagrama de Interface de Mensagens](images/IPayment.png)
+
+~~~json
+{
+  order_id: number,
+  order_status: enum,
+  payment_id: string,
+  payment_type: string,
+  total_value: double,
+  updated_at: datetime,
+  created_at: datetime
+}
+~~~
+
+## Componente `Payment`
+
+O componente Payment é responsável por gerenciar todas as funcionalidades para realizar pagamento.
+Seus serviços disponíveis são: 
+* Verificar os dados do pagamento;
+* E enviar os pagamentos aprovados.
+
+![Componente](payment.png)
+
+**Interfaces**
+> Listagem das interfaces do componente.
+
+* ICheckPayment
+* ISendApprovedPayment
+
+## Detalhamento das Interfaces
+
+### Interface `ICheckPayment`
+
+A interface ICheckPayment recebe os disparos para a validação dos dados do pagamento.
+
+![Diagrama de Interface de Mensagens](images/ICheckPayment.png)
+
+~~~json
+{
+  updated_at: datetime,
+  created_at: datetime,
+  order : {
+    order_id: number,
+    order_status: enum,
+  }, 
+  payment: [{
+    payment_id: string,
+    payment_type: string,
+    total_value: double,
+  }]  
+}
+~~~
+
+### Interface `ISendApprovedPayment`
+
+A interface IPayment posta no barramento somente os pagamentos aprovados
+
+![Diagrama de Interface de Mensagens](images/ISendApprovedPayment.png)
+
+~~~json
+{
+  updated_at: datetime,
+  created_at: datetime,
+  order : {
+    order_id: number,
+    order_status: enum
+  }, 
+  payment: [{
+    payment_id: string,
+    payment_type: string,
+    total_value: double,
+    status: enum
+  }]  
+}
+~~~
+
+## Componente `Shipping`
+
+O componente Shipping é responsável por gerenciar todas as funcionalidades para realizar a entrega do produto.
+Seus serviços disponíveis são: 
+* Verificar os dados para o despacho;
+* E realizar o envio do pedido.
+
+![Componente](shipping.png)
+
+**Interfaces**
+> Listagem das interfaces do componente.
+
+* IShipOrder
+* IShippedOrder
+
+## Detalhamento das Interfaces
+
+### Interface `IShipOrder`
+
+A interface IShipOrder recebe os disparos para a validação dos dados de despacho.
+
+![Diagrama de Interface de Mensagens](images/IShipOrder.png)
 
 ~~~json
 {
   order_id: number,
   order_status: string,
   shipping_method: string,
-  total_value: decimal(2),
+  location: {
+    zipcode: string,
+    address: string,
+    state: string,
+    city: string
+  }
+}
+~~~
+
+### Interface `IShippedOrder`
+
+A interface IShippedOrder posta no barramento o andamento da entrega.
+
+![Diagrama de Interface de Mensagens](images/IShippedOrder.png)
+
+~~~json
+{
+  order_id: number,
+  order_status: string,
+  shipping_method: string,
+  shipping_status: enum,
+  location: {
+    zipcode: string,
+    address: string,
+    state: string,
+    city: string
+  }
+}
+~~~
+
+## Componente `Shop`
+
+O componente Shop é responsável por gerenciar todas as funcionalidades para as lojas serem capazes de atender aos pedidos.
+Seus serviços disponíveis são: 
+* Enviar o pedido para despacho;
+* E devolver as ofertas de acordo com as recomendações do comprador.
+
+![Componente](shop.png)
+
+**Interfaces**
+> Listagem das interfaces do componente.
+
+* IRetrieveOffers
+* ISendOffers
+* IGetApprovedPayment
+* ISendToShip
+
+## Detalhamento das Interfaces
+
+### Interface `IRetrieveOffers`
+
+A interface IRetrieveOffers recebe os disparos .
+
+![Diagrama de Interface de Mensagens](images/IRetrieveOffers.png)
+
+~~~json
+{
   items: [
-	{
-   	  itemid: string,
-   	  quantity: number,
-      price: number
+    {
+		itemid: string,
+		offerType: string,
+    		offer: Offer
 	}
   ]
 }
 ~~~
+
+### Interface `ISendOffers`
+
+A interface ISendOffers posta no barramento a melhor oferta do lojista.
+
+![Diagrama de Interface de Mensagens](images/ISendOffers.png)
+
+~~~json
+{
+  items: [
+    {
+		itemid: string,
+		offerType: string,
+    		offer: Offer
+	}
+  ]
+}
+~~~
+
+### Interface `IGetApprovedPayment`
+
+A interface IGetApprovedPayment consome no barramento os pedidos que tem pagamentos aprovados.
+
+![Diagrama de Interface de Mensagens](images/IGetApprovedPayment.png)
+
+~~~json
+{
+  updatedAt: datetime,
+  createdAt: datetime,
+  order : {
+    orderId: number,
+    orderStatus: enum
+  }, 
+  payment: [{
+    paymentId: string,
+    paymentType: string,
+    totalValue: double,
+    status: enum
+  }]  
+}
+~~~
+
+### Interface `ISendToShip`
+
+A interface ISendToShip posta no barramento os pedidos aprovados que estão prontos para despacho.
+
+![Diagrama de Interface de Mensagens](images/ISendToShip.png)
+
+~~~json
+{
+  order_id: number,
+  order_status: string,
+  shipping_method: string,
+  shipping_status: enum,
+  location: {
+    zipcode: string,
+    address: string,
+    state: string,
+    city: string
+  }
+}
+~~~
+
+## Componente `Recommendation`
+
+O componente Recommendation é responsável por gerenciar todas as funcionalidades para disparar as recomendações do pedido para os lojistas e devolver as ofertas para o comprador conforme seus critérios de ranqueamento
+Seus serviços disponíveis são: 
+* Enviar as ofertas para os lojistas;
+* E enviar as ofertas para os compradores.
+
+![Componente](recommendation.png)
+
+**Interfaces**
+> Listagem das interfaces do componente.
+
+* IGetOffers
+* IPlaceOffers
+* IGetRanks
+* ISendRecommendations
+
+## Detalhamento das Interfaces
+
+### Interface `IGetOffers`
+
+A interface IGetOffers recebe as ofertas dos lojistas.
+
+![Diagrama de Interface de Mensagens](images/IGetOffers.png)
+
+~~~json
+{
+  store: {
+    storeId: string,
+    location: {
+      country: string,
+      state: string,
+      city: string,
+      address: string,
+      cep: string
+  	}
+  },
+  product: {
+    productId: string,
+    quantityAvailable: number,
+    unitaryPrice: number,
+    availableQuantity: number,
+  }
+}
+~~~
+
+### Interface `IPlaceOffers`
+
+A interface ISendOffers posta no barramento os critérios para as ofertas.
+
+![Diagrama de Interface de Mensagens](images/IPlaceOffers.png)
+
+~~~json
+{
+  items: [
+    {
+		itemid: string,
+		offerType: string,
+    		offer: Offer
+	}
+  ]
+}
+~~~
+
+### Interface `IGetRanks`
+
+A interface IGetRanks consome no barramento os critérios de ranqueamento de recomendações de ofertas.
+
+![Diagrama de Interface de Mensagens](images/IGetRanks.png)
+
+~~~json
+{
+  rnk_type: string,
+  total: number,
+  items: [{
+   	itemid: string,
+   	quantity: number,
+    price: number
+	}]
+}
+~~~
+
+### Interface `ISendRecommendations`
+
+A interface ISendRecommendations posta no barramento as recomendações para o comprador.
+
+![Diagrama de Interface de Mensagens](images/ISendRecommendations.png)
+
+~~~json
+{
+  rcm_type: string,
+  total: number,
+  items: [
+	{
+   	itemid: string,
+   	quantity: number,
+    price: number
+	}]
+}
+~~~
+
 
 # Nível 2
 
