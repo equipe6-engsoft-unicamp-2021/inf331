@@ -494,28 +494,6 @@ As interfaces listadas são detalhadas a seguir:
 - O componente Process Payment solicita externamente  aprovação de pagamento e requisição de pagamento através das interfaces ExternalRequirePayment e ExternalGetPaymentApproval.
 - O componente Approve Order envia externamente  aprovação de pagamento através da interface ISendApprovedPayment.
 
-### Interface `ITableProducer`
-
-![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
-
-Interface provida por qualquer fonte de dados que os forneça na forma de uma tabela.
-
-Método | Objetivo
--------| --------
-`requestAttributes` | Retorna um vetor com o nome de todos os atributos (colunas) da tabela.
-`requestInstances` | Retorna uma matriz em que cada linha representa uma instância e cada coluna o valor do respectivo atributo (a ordem dos atributos é a mesma daquela fornecida por `requestAttributes`.
-
-### Interface `IDataSetProperties`
-
-![Diagrama da Interface](images/diagrama-interface-idatasetproperties.png)
-
-Define o recurso (usualmente o caminho para um arquivo em disco) que é a fonte de dados.
-
-Método | Objetivo
--------| --------
-`getDataSource` | Retorna o caminho da fonte de dados.
-`setDataSource` | Define o caminho da fonte de dados, informado através do parâmetro `dataSource`.
-
 ## Diagrama do Nível 3
 
 > Apresente uma imagem com a captura de tela de seu protótipo feito no MIT App Inventor, conforme modelo a seguir:
@@ -528,7 +506,7 @@ Método | Objetivo
 
 ### Detalhamento da interação de componentes
 
-> O componente Classificação ao receber um evento de clique, envia informações ao componente Obter Avaliações.
+- O componente Classificação ao receber um evento de clique, envia informações ao componente Obter Avaliações.
 - O componente SeletorDeLoja ao receber um evento de clique, envia informações a dois componentes ObterOfertas que é relacionada a produtos e componente SelecionaOferta que é relacionado à recomendação de ofertas
 - O componente OpçãoDeParcelamento ao receber um evento de mudança,  envia informações a dois componentes CalcullParcelas e componente ArmazenaParcela.
 - O componente SeletorFormaDePagamento ao receber um evento de clique, envia informações a dois componentes ObterFormaDePagamento e o componente ArmazenaFormaDePagamento.
