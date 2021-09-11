@@ -502,7 +502,8 @@ As interfaces listadas são detalhadas a seguir:
 
 > Apresente o diagrama referente ao protótipo conforme o modelo a seguir:
 
-![Modelo de diagrama no nível 2](images/diagrama-prototipo.png)
+![Modelo de diagrama no nível 2](images/diagrama-prototipo1.PNG)
+![Modelo de diagrama no nível 2](images/diagrama-prototipo2.PNG)
 
 ### Detalhamento da interação de componentes
 
