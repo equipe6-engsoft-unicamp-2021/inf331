@@ -58,7 +58,7 @@ Seus serviços disponíveis são:
 * Criar um pedido;
 * Iniciar o ranqueamento de recomendações de compra.
 
-![Componente](shopper.png)
+![Componente](images/shopper.png)
 
 **Interfaces**
 > Listagem das interfaces do componente.
@@ -178,7 +178,7 @@ Seus serviços disponíveis são:
 * Criar um pedido;
 * E enviar/verificar o pagamento.
 
-![Componente](order.png)
+![Componente](images/order.png)
 
 **Interfaces**
 > Listagem das interfaces do componente.
@@ -239,74 +239,6 @@ A interface IPayment posta no barramento para validar os dados de pagamento do c
 }
 ~~~
 
-## Componente `Order`
-
-O componente Order é responsável por gerenciar todas as funcionalidades para realizar um pedido.
-Seus serviços disponíveis são: 
-* Criar um pedido;
-* E enviar/verificar o pagamento.
-
-![Componente](order.png)
-
-**Interfaces**
-> Listagem das interfaces do componente.
-
-* IRetrieveOrder
-* IPayment
-
-## Detalhamento das Interfaces
-
-### Interface `IRetrieveOrder`
-
-A interface IRetrieveOrder recebe os disparos para a criação de um novo pedido.
-
-* Type: `sink`
-* Topic: `order/<order_id>/get`
-* Message type: `Order`
-
-~~~json
-{
-  orderId: string,
-  orderDate: data,
-  total: double,
-  shippingCost: double,
-  items: [
-	{
-   	itemid: string,
-   	quantity: number,
-    price: number
-  }],
-  buyerUserId: string,
-  shippingAddress: {
-    address: string,
-    city: string,
-    state: string,
-    country: string,
-    cep: string
-  } 
-}
-~~~
-
-### Interface `IPayment`
-
-A interface IPayment posta no barramento para validar os dados de pagamento do comprador.
-
-* Type: `sink`
-* Topic: `payment/<order_id>/verify`
-* Message type: `Payment`
-
-~~~json
-{
-  order_id: number,
-  order_status: enum,
-  payment_id: string,
-  payment_type: string,
-  total_value: double,
-  updated_at: datetime,
-  created_at: datetime
-}
-~~~
-
 ## Componente `Payment`
 
 O componente Payment é responsável por gerenciar todas as funcionalidades para realizar pagamento.
@@ -314,7 +246,7 @@ Seus serviços disponíveis são:
 * Verificar os dados do pagamento;
 * E enviar os pagamentos aprovados.
 
-![Componente](payment.png)
+![Componente](images/payment.png)
 
 **Interfaces**
 > Listagem das interfaces do componente.
@@ -350,7 +282,7 @@ A interface ICheckPayment recebe os disparos para a validação dos dados do pag
 
 ### Interface `ISendApprovedPayment`
 
-A interface IPayment posta no barramento somente os pagamentos aprovados
+A interface IPayment posta no barramento somente os pagamentos aprovados.
 
 * Type: `source`
 * Topic: `payment/<order_id>/<status>/send`
@@ -380,7 +312,7 @@ Seus serviços disponíveis são:
 * Verificar os dados para o despacho;
 * E realizar o envio do pedido.
 
-![Componente](shipping.png)
+![Componente](images/shipping.png)
 
 **Interfaces**
 > Listagem das interfaces do componente.
@@ -442,7 +374,7 @@ Seus serviços disponíveis são:
 * Enviar o pedido para despacho;
 * E devolver as ofertas de acordo com as recomendações do comprador.
 
-![Componente](shop.png)
+![Componente](images/shop.png)
 
 **Interfaces**
 > Listagem das interfaces do componente.
@@ -549,7 +481,7 @@ Seus serviços disponíveis são:
 * Enviar as ofertas para os lojistas;
 * E enviar as ofertas para os compradores.
 
-![Componente](recommendation.png)
+![Componente](images/recommendation.png)
 
 **Interfaces**
 > Listagem das interfaces do componente.
